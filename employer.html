@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextStep - Для работодателей</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/employer.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-compass"></i>
+            NextStep
+            <span class="employer-link" onclick="window.location.href='index.html'">Для соискателей</span>
+        </div>
+        
+        <div class="header-buttons">
+            <button class="btn btn-login">Войти в кабинет</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="employer-container">
+        <div class="employer-header">
+            <h1>Создание вакансии</h1>
+            <p>Разместите вакансию и находите лучших кандидатов с помощью AI</p>
+        </div>
+
+        <div class="form-card">
+            <form id="vacancyForm">
+                <div class="form-group">
+                    <label for="jobTitle">Название вакансии *</label>
+                    <input type="text" id="jobTitle" placeholder="Например: Frontend разработчик" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="companyName">Название компании *</label>
+                    <input type="text" id="companyName" placeholder="Ваша компания" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="salary">Зарплата</label>
+                    <input type="text" id="salary" placeholder="Например: 100 000 - 150 000 руб.">
+                </div>
+
+                <div class="form-group">
+                    <label for="jobDescription">Описание вакансии *</label>
+                    <textarea id="jobDescription" placeholder="Опишите чем предстоит заниматься, задачи и цели..." required></textarea>
+                    
+                    <div class="ai-helper">
+                        <div class="ai-helper-header">
+                            <i class="fas fa-robot"></i>
+                            <h3>AI-помощник</h3>
+                        </div>
+                        <p>Наш ИИ поможет сделать описание более привлекательным для кандидатов</p>
+                        <button type="button" class="helper-btn" onclick="employerApp.improveText()">
+                            <i class="fas fa-magic"></i>
+                            Улучшить текст
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="requirements">Требования к кандидату *</label>
+                    <textarea id="requirements" placeholder="Опыт работы, навыки, образование..." required></textarea>
+                    
+                    <div class="ai-helper">
+                        <div class="ai-helper-header">
+                            <i class="fas fa-robot"></i>
+                            <h3>AI-помощник</h3>
+                        </div>
+                        <p>Сформулируем четкие и реалистичные требования</p>
+                        <button type="button" class="helper-btn" onclick="employerApp.improveRequirements()">
+                            <i class="fas fa-magic"></i>
+                            Оптимизировать требования
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="conditions">Условия работы *</label>
+                    <textarea id="conditions" placeholder="График, формат работы, бонусы..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="contacts">Контакты для отклика *</label>
+                    <input type="text" id="contacts" placeholder="Email или телефон" required>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                        Опубликовать вакансию
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/employer.js"></script>
+</body>
+</html>
