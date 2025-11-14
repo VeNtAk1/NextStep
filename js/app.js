@@ -34,13 +34,25 @@ class NextStepApp {
     
     if (resumeBtn) {
         resumeBtn.addEventListener('click', () => {
-            alert('Функция "Создать резюме" будет доступна в ближайшее время!');
+             if (window.userAuth && window.userAuth.currentUser) {
+                // Пользователь авторизован - создаем резюме
+                // Просто выполняем действие без alert
+                console.log('Создание резюме для авторизованного пользователя');
+                // Здесь будет функционал создания резюме
+            } else {
+                // Пользователь не авторизован - открываем модальное окно
+                if (window.userAuth) {
+                    window.userAuth.showAuthModal();
+                }
+            }
         });
     }
     
     if (loginBtn) {
         loginBtn.addEventListener('click', () => {
-            alert('Функция входа будет доступна в ближайшее время!');
+            if (window.userAuth) {
+                window.userAuth.showAuthModal();
+            }
         });
     }
     
@@ -49,10 +61,33 @@ class NextStepApp {
             this.openEmployerPage();
         });
     }
+    // Кнопка "Создать резюме"
+    if (resumeBtn) {
+        resumeBtn.addEventListener('click', () => {
+            if (window.userAuth && window.userAuth.currentUser) {
+                // Пользователь авторизован - создаем резюме
+                alert('Функция создания резюме будет доступна в ближайшее время!');
+            } else {
+                // Пользователь не авторизован - предлагаем войти
+                alert('Для создания резюме необходимо войти в систему');
+                if (window.userAuth) {
+                    window.userAuth.showAuthModal();
+                }
+            }
+        });
+    }
+    
   }
   openEmployerPage() {
-    window.open('employer.html', '_blank');
-  }
+    // Проверяем, есть ли уже зарегистрированный работодатель
+    const existingEmployer = localStorage.getItem('currentEmployer');
+    
+    if (existingEmployer) {
+        window.open('employer-dashboard.html', '_blank');
+    } else {
+        window.open('employer.html', '_blank');
+    }
+}
   switchTab(tabName) {
     this.currentTab = tabName;
 

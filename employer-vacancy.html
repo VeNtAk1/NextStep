@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextStep - Создание вакансии</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/employer.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-compass"></i>
+            NextStep
+            <span class="employer-link" onclick="window.location.href='index.html'">Для соискателей</span>
+        </div>
+        
+        <div class="header-buttons">
+            <button class="btn btn-login" onclick="window.location.href='employer-dashboard.html'">
+                <i class="fas fa-tachometer-alt"></i>
+                В кабинет
+            </button>
+        </div>
+    </header>
+
+    <div class="employer-container">
+        <div class="employer-header">
+            <h1>Создание вакансии</h1>
+            <p>Разместите вакансию и находите лучших кандидатов с помощью AI</p>
+        </div>
+
+        <div class="form-card">
+            <form id="vacancyForm">
+                <div class="form-group">
+                    <label for="jobTitle">Название вакансии *</label>
+                    <input type="text" id="jobTitle" placeholder="Например: Frontend разработчик" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="companyName">Компания *</label>
+                    <input type="text" id="companyName" value="Ваша компания" readonly>
+                    <small style="color: #666;">Для изменения названия компании отредактируйте профиль</small>
+                </div>
+
+                <!-- Остальные поля формы как в предыдущей версии -->
+                <!-- ... -->
+
+                <div class="submit-section">
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                        Опубликовать вакансию
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/employer-vacancy.js"></script>
+</body>
+</html>
