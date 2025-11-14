@@ -5,19 +5,32 @@ class EmployerVacancy {
     }
     
     init() {
-        this.checkAuth();
-        this.setupEventListeners();
+        this.checkAuth()
+            .then(() => this.setupEventListeners())
+            .then(() => this.showContent())
+            .catch((error) => {
+                console.error('Vacancy page initialization error:', error);
+                this.redirectToLogin();
+            });
     }
     
     checkAuth() {
-        const employer = sessionStorage.getItem('currentEmployer');
-        if (!employer) {
-            window.location.href = 'employer-login.html';
-            return;
-        }
-        
-        this.employer = JSON.parse(employer);
-        document.getElementById('companyName').value = this.employer.companyName;
+         return new Promise((resolve, reject) => {
+            const employer = sessionStorage.getItem('currentEmployer');
+            
+            if (!employer) {
+                reject(new Error('Not authenticated'));
+                return;
+            }
+            
+            try {
+                this.employer = JSON.parse(employer);
+                document.getElementById('companyName').value = this.employer.companyName;
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
     
     setupEventListeners() {
@@ -68,6 +81,24 @@ class EmployerVacancy {
     
     generateId() {
         return 'vacancy_' + Math.random().toString(36).substr(2, 9);
+    }
+     showContent() {
+        const preloader = document.getElementById('preloader');
+        const content = document.getElementById('employerContent');
+        
+        preloader.style.display = 'none';
+        content.style.display = 'block';
+        
+        content.style.opacity = '0';
+        content.style.transition = 'opacity 0.3s ease';
+        
+        setTimeout(() => {
+            content.style.opacity = '1';
+        }, 50);
+    }
+    
+    redirectToLogin() {
+        window.location.href = 'employer-login.html';
     }
 }
 

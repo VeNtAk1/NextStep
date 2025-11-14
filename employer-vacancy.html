@@ -4,56 +4,367 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NextStep - Создание вакансии</title>
+    <meta name="description" content="Создайте новую вакансию на NextStep для привлечения лучших кандидатов">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/employer.css">
+    <style>
+        /* Стили для прелоадера */
+        .employer-content { 
+            display: none; 
+        }
+        
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            gap: 20px;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f0f2f5;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .preloader-text {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <i class="fas fa-compass"></i>
-            NextStep
-            <span class="employer-link" onclick="window.location.href='index.html'">Для соискателей</span>
-        </div>
-        
-        <div class="header-buttons">
-            <button class="btn btn-login" onclick="window.location.href='employer-dashboard.html'">
-                <i class="fas fa-tachometer-alt"></i>
-                В кабинет
-            </button>
-        </div>
-    </header>
+    <!-- Прелоадер -->
+    <div class="preloader" id="preloader">
+        <div class="spinner"></div>
+        <div class="preloader-text">Загрузка формы создания вакансии...</div>
+    </div>
 
-    <div class="employer-container">
-        <div class="employer-header">
-            <h1>Создание вакансии</h1>
-            <p>Разместите вакансию и находите лучших кандидатов с помощью AI</p>
-        </div>
+    <!-- Основной контент (изначально скрыт) -->
+    <div class="employer-content" id="employerContent">
+        <header>
+            <div class="logo">
+                <i class="fas fa-compass" aria-hidden="true"></i>
+                NextStep
+                <a href="index.html" class="employer-link">Для соискателей</a>
+            </div>
+            
+            <div class="header-buttons">
+                <button class="btn btn-login" id="dashboardBtn" type="button">
+                    <i class="fas fa-tachometer-alt" aria-hidden="true"></i>
+                    В кабинет
+                </button>
+            </div>
+        </header>
 
-        <div class="form-card">
-            <form id="vacancyForm">
-                <div class="form-group">
-                    <label for="jobTitle">Название вакансии *</label>
-                    <input type="text" id="jobTitle" placeholder="Например: Frontend разработчик" required>
-                </div>
+        <main class="employer-container">
+            <header class="employer-header">
+                <h1>Создание вакансии</h1>
+                <p>Разместите вакансию и находите лучших кандидатов с помощью AI</p>
+            </header>
 
-                <div class="form-group">
-                    <label for="companyName">Компания *</label>
-                    <input type="text" id="companyName" value="Ваша компания" readonly>
-                    <small style="color: #666;">Для изменения названия компании отредактируйте профиль</small>
-                </div>
+            <section class="form-card" aria-labelledby="vacancy-form-title">
+                <h2 id="vacancy-form-title" class="visually-hidden">Форма создания вакансии</h2>
+                
+                <form id="vacancyForm" novalidate>
+                    <!-- Основная информация о вакансии -->
+                    <fieldset class="form-section">
+                        <legend>Основная информация</legend>
+                        
+                        <div class="form-group">
+                            <label for="jobTitle" class="required">
+                                Название вакансии
+                            </label>
+                            <input 
+                                type="text" 
+                                id="jobTitle" 
+                                placeholder="Например: Frontend разработчик" 
+                                required
+                                aria-required="true"
+                            >
+                        </div>
 
-                <!-- Остальные поля формы как в предыдущей версии -->
-                <!-- ... -->
+                        <div class="form-group">
+                            <label for="companyName">
+                                Компания
+                            </label>
+                            <input 
+                                type="text" 
+                                id="companyName" 
+                                value="Загрузка..." 
+                                readonly
+                                aria-describedby="company-hint"
+                            >
+                            <small id="company-hint" class="field-hint">
+                                Для изменения названия компании отредактируйте профиль
+                            </small>
+                        </div>
 
-                <div class="submit-section">
-                    <button type="submit" class="btn-primary">
-                        <i class="fas fa-paper-plane"></i>
-                        Опубликовать вакансию
-                    </button>
-                </div>
-            </form>
-        </div>
+                        <div class="form-group">
+                            <label for="salary">
+                                Зарплата
+                            </label>
+                            <input 
+                                type="text" 
+                                id="salary" 
+                                placeholder="Например: 100 000 - 150 000 руб."
+                                aria-describedby="salary-hint"
+                            >
+                            <small id="salary-hint" class="field-hint">
+                                Укажите вилку зарплаты для привлечения большего числа кандидатов
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="workLocation">
+                                Местоположение
+                            </label>
+                            <select id="workLocation" aria-describedby="location-hint">
+                                <option value="">Выберите тип работы</option>
+                                <option value="remote">Удалённая работа</option>
+                                <option value="office">Работа в офисе</option>
+                                <option value="hybrid">Гибридный формат</option>
+                                <option value="flexible">Любой формат</option>
+                            </select>
+                            <small id="location-hint" class="field-hint">
+                                Укажите формат работы для правильного подбора кандидатов
+                            </small>
+                        </div>
+                    </fieldset>
+
+                    <!-- Описание вакансии -->
+                    <fieldset class="form-section">
+                        <legend>Описание вакансии</legend>
+                        
+                        <div class="form-group">
+                            <label for="jobDescription" class="required">
+                                Описание вакансии
+                            </label>
+                            <textarea 
+                                id="jobDescription" 
+                                placeholder="Опишите чем предстоит заниматься, задачи и цели..." 
+                                required
+                                aria-required="true"
+                                rows="6"
+                                aria-describedby="description-hint"
+                            ></textarea>
+                            <small id="description-hint" class="field-hint">
+                                Подробно опишите обязанности и задачи сотрудника
+                            </small>
+                            
+                            <div class="ai-helper">
+                                <div class="ai-helper-header">
+                                    <i class="fas fa-robot" aria-hidden="true"></i>
+                                    <h3>AI-помощник</h3>
+                                </div>
+                                <p>Наш ИИ поможет сделать описание более привлекательным для кандидатов</p>
+                                <button type="button" class="helper-btn" id="improveDescriptionBtn">
+                                    <i class="fas fa-magic" aria-hidden="true"></i>
+                                    Улучшить текст
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Требования к кандидату -->
+                    <fieldset class="form-section">
+                        <legend>Требования к кандидату</legend>
+                        
+                        <div class="form-group">
+                            <label for="requirements" class="required">
+                                Требования
+                            </label>
+                            <textarea 
+                                id="requirements" 
+                                placeholder="Опыт работы, навыки, образование..." 
+                                required
+                                aria-required="true"
+                                rows="5"
+                                aria-describedby="requirements-hint"
+                            ></textarea>
+                            <small id="requirements-hint" class="field-hint">
+                                Укажите ключевые навыки и опыт, необходимые для работы
+                            </small>
+                            
+                            <div class="ai-helper">
+                                <div class="ai-helper-header">
+                                    <i class="fas fa-robot" aria-hidden="true"></i>
+                                    <h3>AI-помощник</h3>
+                                </div>
+                                <p>Сформулируем четкие и реалистичные требования</p>
+                                <button type="button" class="helper-btn" id="improveRequirementsBtn">
+                                    <i class="fas fa-magic" aria-hidden="true"></i>
+                                    Оптимизировать требования
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="experienceLevel">
+                                Уровень опыта
+                            </label>
+                            <select id="experienceLevel">
+                                <option value="">Не имеет значения</option>
+                                <option value="none">Без опыта</option>
+                                <option value="junior">Junior (до 1 года)</option>
+                                <option value="middle">Middle (1-3 года)</option>
+                                <option value="senior">Senior (3+ года)</option>
+                                <option value="lead">Lead (5+ лет)</option>
+                            </select>
+                        </div>
+                    </fieldset>
+
+                    <!-- Условия работы -->
+                    <fieldset class="form-section">
+                        <legend>Условия работы</legend>
+                        
+                        <div class="form-group">
+                            <label for="conditions" class="required">
+                                Условия работы
+                            </label>
+                            <textarea 
+                                id="conditions" 
+                                placeholder="График, формат работы, бонусы..." 
+                                required
+                                aria-required="true"
+                                rows="4"
+                                aria-describedby="conditions-hint"
+                            ></textarea>
+                            <small id="conditions-hint" class="field-hint">
+                                Опишите рабочие условия, бонусы и преимущества компании
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="workSchedule">
+                                График работы
+                            </label>
+                            <select id="workSchedule">
+                                <option value="">Выберите график</option>
+                                <option value="full">Полный день</option>
+                                <option value="part">Неполный день</option>
+                                <option value="flexible">Гибкий график</option>
+                                <option value="shift">Сменный график</option>
+                                <option value="remote">Удалённый график</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="benefits">
+                                Бонусы и преимущества
+                            </label>
+                            <textarea 
+                                id="benefits" 
+                                placeholder="ДМС, обучение, спортзал, питание..." 
+                                rows="3"
+                                aria-describedby="benefits-hint"
+                            ></textarea>
+                            <small id="benefits-hint" class="field-hint">
+                                Перечислите дополнительные преимущества работы в вашей компании
+                            </small>
+                        </div>
+                    </fieldset>
+
+                    <!-- Контактная информация -->
+                    <fieldset class="form-section">
+                        <legend>Контактная информация</legend>
+                        
+                        <div class="form-group">
+                            <label for="contacts" class="required">
+                                Контакты для отклика
+                            </label>
+                            <input 
+                                type="text" 
+                                id="contacts" 
+                                placeholder="Email или телефон" 
+                                required
+                                aria-required="true"
+                                aria-describedby="contacts-hint"
+                            >
+                            <small id="contacts-hint" class="field-hint">
+                                Укажите email или телефон для связи с кандидатами
+                            </small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactPerson">
+                                Контактное лицо
+                            </label>
+                            <input 
+                                type="text" 
+                                id="contactPerson" 
+                                placeholder="Имя и должность"
+                                aria-describedby="person-hint"
+                            >
+                            <small id="person-hint" class="field-hint">
+                                Укажите сотрудника, который будет общаться с кандидатами
+                            </small>
+                        </div>
+                    </fieldset>
+
+                    <!-- Дополнительные настройки -->
+                    <fieldset class="form-section">
+                        <legend>Дополнительные настройки</legend>
+                        
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="autoPublish" checked>
+                            <label for="autoPublish">
+                                Опубликовать вакансию сразу после создания
+                            </label>
+                        </div>
+                        
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="receiveNotifications" checked>
+                            <label for="receiveNotifications">
+                                Получать уведомления о новых откликах
+                            </label>
+                        </div>
+                        
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="showSalary">
+                            <label for="showSalary">
+                                Показывать зарплату в вакансии
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <!-- Кнопки отправки -->
+                    <div class="submit-section">
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary" id="submitBtn">
+                                <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                                Опубликовать вакансию
+                            </button>
+                            
+                            <button type="button" class="btn-secondary" id="saveDraftBtn">
+                                <i class="fas fa-save" aria-hidden="true"></i>
+                                Сохранить черновик
+                            </button>
+                            
+                            <button type="button" class="btn-cancel" id="cancelBtn">
+                                Отмена
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </main>
     </div>
 
     <script src="js/employer-vacancy.js"></script>

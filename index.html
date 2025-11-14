@@ -18,7 +18,7 @@
         
         <div class="search-container">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Поиск вакансий, компаний">
+            <input type="text" placeholder="Поиск вакансий, компаний" id="searchInput">
         </div>
         
         <div class="header-buttons">
@@ -29,35 +29,169 @@
 
     <!-- Main Content -->
     <main>
-        <!-- Tabs Navigation -->
-        <div class="tabs">
-            <div class="tab active" data-tab="vacancies">Вакансии</div>
-            <div class="tab" data-tab="companies">Компании</div>
-            <div class="tab" data-tab="resumes">Резюме</div>
-        </div>
+        <div class="main-container">
+            <!-- Sidebar Filters -->
+            <aside class="filters-sidebar">
+                <div class="filters-header">
+                    <h3>Фильтры</h3>
+                    <button class="btn-clear-filters" id="clearFilters">Сбросить</button>
+                </div>
 
-        <!-- Content Sections -->
-        <div id="content-container">
-            <!-- Content will be rendered here by JavaScript -->
+                <!-- Фильтр: Тип работы -->
+                <section class="filter-group">
+                    <h4>Тип работы</h4>
+                    <div class="filter-options">
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="workType" value="remote">
+                            <span class="checkmark"></span>
+                            Удаленная работа
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="workType" value="office">
+                            <span class="checkmark"></span>
+                            В офисе
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="workType" value="hybrid">
+                            <span class="checkmark"></span>
+                            Гибридный формат
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Фильтр: График работы -->
+                <section class="filter-group">
+                    <h4>График работы</h4>
+                    <div class="filter-options">
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="schedule" value="full">
+                            <span class="checkmark"></span>
+                            Полный день
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="schedule" value="part">
+                            <span class="checkmark"></span>
+                            Неполный день
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="schedule" value="flexible">
+                            <span class="checkmark"></span>
+                            Гибкий график
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="schedule" value="shift">
+                            <span class="checkmark"></span>
+                            Сменный график
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Фильтр: Зарплата -->
+                <section class="filter-group">
+                    <h4>Зарплата</h4>
+                    <div class="salary-range">
+                        <div class="range-inputs">
+                            <input type="number" placeholder="от" id="salaryMin" min="0">
+                            <span>-</span>
+                            <input type="number" placeholder="до" id="salaryMax" min="0">
+                        </div>
+                        <button class="btn-apply-salary" id="applySalary">Применить</button>
+                    </div>
+                </section>
+
+                <!-- Фильтр: Опыт работы -->
+                <section class="filter-group">
+                    <h4>Опыт работы</h4>
+                    <div class="filter-options">
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="experience" value="none">
+                            <span class="checkmark"></span>
+                            Без опыта
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="experience" value="1-3">
+                            <span class="checkmark"></span>
+                            1-3 года
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="experience" value="3-6">
+                            <span class="checkmark"></span>
+                            3-6 лет
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="experience" value="6+">
+                            <span class="checkmark"></span>
+                            Более 6 лет
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Фильтр: Сфера деятельности -->
+                <section class="filter-group">
+                    <h4>Сфера деятельности</h4>
+                    <div class="filter-options">
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="industry" value="it">
+                            <span class="checkmark"></span>
+                            IT и разработка
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="industry" value="marketing">
+                            <span class="checkmark"></span>
+                            Маркетинг
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="industry" value="sales">
+                            <span class="checkmark"></span>
+                            Продажи
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="industry" value="finance">
+                            <span class="checkmark"></span>
+                            Финансы
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" name="industry" value="hr">
+                            <span class="checkmark"></span>
+                            HR и рекрутинг
+                        </label>
+                    </div>
+                </section>
+            </aside>
+
+            <!-- Основная область контента -->
+            <div class="content-area">
+                <!-- Навигация по вкладкам -->
+                <nav class="tabs" role="tablist">
+                    <button class="tab active" data-tab="vacancies" role="tab">Вакансии</button>
+                    <button class="tab" data-tab="companies" role="tab">Компании</button>
+                    <button class="tab" data-tab="resumes" role="tab">Резюме</button>
+                </nav>
+
+                <!-- Контейнер для контента -->
+                <div id="content-container" role="tabpanel">
+                    <!-- Контент будет рендериться здесь через JavaScript -->
+                </div>
+            </div>
         </div>
     </main>
 
-    <!-- Auth Modal -->
-    <div class="modal" id="authModal">
-        <div class="modal-content">
+    <!-- Модальное окно авторизации -->
+    <div class="modal" id="authModal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-labelledby="authModalTitle">
             <div class="modal-header">
-                <h2>Вход в NextStep</h2>
-                <span class="close" id="closeModal">&times;</span>
+                <h2 id="authModalTitle">Вход в NextStep</h2>
+                <button class="close" id="closeModal" aria-label="Закрыть окно">&times;</button>
             </div>
             
-            <div class="auth-tabs">
-                <button class="auth-tab active" data-tab="login">Вход</button>
-                <button class="auth-tab" data-tab="register">Регистрация</button>
+            <div class="auth-tabs" role="tablist">
+                <button class="auth-tab active" data-tab="login" role="tab">Вход</button>
+                <button class="auth-tab" data-tab="register" role="tab">Регистрация</button>
             </div>
 
             <div class="auth-content">
-                <!-- Login Form -->
-                <form class="auth-form active" id="loginForm">
+                <!-- Форма входа -->
+                <form class="auth-form active" id="loginForm" role="tabpanel">
                     <div class="form-group">
                         <label for="loginEmail">Email</label>
                         <input type="email" id="loginEmail" placeholder="your@email.com" required>
@@ -77,7 +211,7 @@
                     </div>
                     
                     <button type="submit" class="btn-auth">
-                        <i class="fas fa-sign-in-alt"></i>
+                        <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
                         Войти
                     </button>
                     
@@ -85,23 +219,23 @@
                         <p>Или войдите через:</p>
                         <div class="social-buttons">
                             <button type="button" class="social-btn vk">
-                                <i class="fab fa-vk"></i>
+                                <i class="fab fa-vk" aria-hidden="true"></i>
                                 VK
                             </button>
                             <button type="button" class="social-btn google">
-                                <i class="fab fa-google"></i>
+                                <i class="fab fa-google" aria-hidden="true"></i>
                                 Google
                             </button>
                             <button type="button" class="social-btn yandex">
-                                <i class="fab fa-yandex"></i>
+                                <i class="fab fa-yandex" aria-hidden="true"></i>
                                 Yandex
                             </button>
                         </div>
                     </div>
                 </form>
 
-                <!-- Registration Form -->
-                <form class="auth-form" id="registerForm">
+                <!-- Форма регистрации -->
+                <form class="auth-form" id="registerForm" role="tabpanel">
                     <div class="form-group">
                         <label for="registerName">Имя и фамилия</label>
                         <input type="text" id="registerName" placeholder="Иван Иванов" required>
@@ -131,7 +265,7 @@
                     </div>
                     
                     <button type="submit" class="btn-auth">
-                        <i class="fas fa-user-plus"></i>
+                        <i class="fas fa-user-plus" aria-hidden="true"></i>
                         Зарегистрироваться
                     </button>
                 </form>
@@ -139,7 +273,7 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Подключение скриптов -->
     <script src="js/data.js"></script>
     <script src="js/trustScore.js"></script>
     <script src="js/auth.js"></script>

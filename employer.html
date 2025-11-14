@@ -4,92 +4,191 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NextStep - Регистрация работодателя</title>
+    <meta name="description" content="Зарегистрируйте компанию на NextStep для размещения вакансий и поиска сотрудников">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/employer.css">
 </head>
 <body>
-    <!-- Header -->
+    <!-- Шапка -->
     <header>
         <div class="logo">
-            <i class="fas fa-compass"></i>
+            <i class="fas fa-compass" aria-hidden="true"></i>
             NextStep
-            <span class="employer-link" onclick="window.location.href='index.html'">Для соискателей</span>
+            <a href="index.html" class="employer-link">Для соискателей</a>
         </div>
         
         <div class="header-buttons">
-            <button class="btn btn-login" id="employerLoginBtn">Вход для работодателей</button>
+            <button class="btn btn-login" id="employerLoginBtn" type="button">
+                Вход для работодателей
+            </button>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <div class="employer-container">
-        <div class="employer-header">
+    <!-- Основной контент -->
+    <main class="employer-container">
+        <header class="employer-header">
             <h1>Регистрация компании</h1>
             <p>Создайте профиль компании для размещения вакансий и поиска сотрудников</p>
-        </div>
+        </header>
 
-        <div class="form-card">
-            <form id="companyRegistrationForm">
-                <div class="form-group">
-                    <label for="companyName">Название компании *</label>
-                    <input type="text" id="companyName" placeholder="ООО 'Рога и копыта'" required>
-                </div>
+        <section class="form-card" aria-labelledby="registration-form-title">
+            <h2 id="registration-form-title" class="visually-hidden">Форма регистрации компании</h2>
+            
+            <form id="companyRegistrationForm" novalidate>
+                <!-- Блок информации о компании -->
+                <fieldset class="form-section">
+                    <legend>Информация о компании</legend>
+                    
+                    <div class="form-group">
+                        <label for="companyName" class="required">
+                            Название компании
+                        </label>
+                        <input 
+                            type="text" 
+                            id="companyName" 
+                            placeholder="ООО 'Рога и копыта'" 
+                            required
+                            aria-required="true"
+                        >
+                    </div>
 
-                <div class="form-group">
-                    <label for="companyEmail">Email компании *</label>
-                    <input type="email" id="companyEmail" placeholder="hr@company.com" required>
-                </div>
+                    <div class="form-group">
+                        <label for="companyEmail" class="required">
+                            Email компании
+                        </label>
+                        <input 
+                            type="email" 
+                            id="companyEmail" 
+                            placeholder="hr@company.com" 
+                            required
+                            aria-required="true"
+                        >
+                    </div>
 
-                <div class="form-group">
-                    <label for="companyPhone">Телефон для связи *</label>
-                    <input type="tel" id="companyPhone" placeholder="+7 (999) 123-45-67" required>
-                </div>
+                    <div class="form-group">
+                        <label for="companyPhone" class="required">
+                            Телефон для связи
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="companyPhone" 
+                            placeholder="+7 (999) 123-45-67" 
+                            required
+                            aria-required="true"
+                            pattern="^\+7\s?[\(]?\d{3}[\)]?\s?\d{3}[-]?\d{2}[-]?\d{2}$"
+                        >
+                    </div>
 
-                <div class="form-group">
-                    <label for="companyINN">ИНН компании *</label>
-                    <input type="text" id="companyINN" placeholder="1234567890" required>
-                    <small style="color: #666; font-size: 12px;">Нужен для проверки юридической информации компании</small>
-                </div>
+                    <div class="form-group">
+                        <label for="companyINN" class="required">
+                            ИНН компании
+                        </label>
+                        <input 
+                            type="text" 
+                            id="companyINN" 
+                            placeholder="1234567890" 
+                            required
+                            aria-required="true"
+                            pattern="\d{10}|\d{12}"
+                            maxlength="12"
+                        >
+                        <small class="field-hint">
+                            Нужен для проверки юридической информации компании
+                        </small>
+                    </div>
 
-                <div class="form-group">
-                    <label for="companyDescription">О компании</label>
-                    <textarea id="companyDescription" placeholder="Расскажите о вашей компании, миссии и ценностях..."></textarea>
-                </div>
+                    <div class="form-group">
+                        <label for="companyDescription">
+                            О компании
+                        </label>
+                        <textarea 
+                            id="companyDescription" 
+                            placeholder="Расскажите о вашей компании, миссии и ценностях..."
+                            rows="4"
+                        ></textarea>
+                    </div>
 
-                <div class="form-group">
-                    <label for="companyWebsite">Веб-сайт</label>
-                    <input type="url" id="companyWebsite" placeholder="https://company.com">
-                </div>
+                    <div class="form-group">
+                        <label for="companyWebsite">
+                            Веб-сайт
+                        </label>
+                        <input 
+                            type="url" 
+                            id="companyWebsite" 
+                            placeholder="https://company.com"
+                        >
+                    </div>
+                </fieldset>
 
-                <div class="form-group">
-                    <label for="password">Пароль *</label>
-                    <input type="password" id="password" placeholder="Не менее 8 символов" required minlength="8">
-                </div>
+                <!-- Блок безопасности -->
+                <fieldset class="form-section">
+                    <legend>Безопасность аккаунта</legend>
+                    
+                    <div class="form-group">
+                        <label for="password" class="required">
+                            Пароль
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            placeholder="Не менее 8 символов" 
+                            required
+                            aria-required="true"
+                            minlength="8"
+                            aria-describedby="password-hint"
+                        >
+                        <small id="password-hint" class="field-hint">
+                            Минимум 8 символов, включая цифры и буквы
+                        </small>
+                    </div>
 
-                <div class="form-group">
-                    <label for="confirmPassword">Подтверждение пароля *</label>
-                    <input type="password" id="confirmPassword" placeholder="Повторите пароль" required>
-                </div>
+                    <div class="form-group">
+                        <label for="confirmPassword" class="required">
+                            Подтверждение пароля
+                        </label>
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            placeholder="Повторите пароль" 
+                            required
+                            aria-required="true"
+                            minlength="8"
+                        >
+                    </div>
+                </fieldset>
 
+                <!-- Соглашения -->
                 <div class="form-checkbox">
-                    <input type="checkbox" id="agreeTerms" required>
-                    <label for="agreeTerms">Я согласен с <a href="#" style="color: #667eea;">условиями использования</a> и даю согласие на обработку персональных данных</label>
+                    <input 
+                        type="checkbox" 
+                        id="agreeTerms" 
+                        required
+                        aria-required="true"
+                    >
+                    <label for="agreeTerms">
+                        Я согласен с <a href="#" class="link">условиями использования</a> 
+                        и даю согласие на обработку персональных данных
+                    </label>
                 </div>
 
+                <!-- Кнопки отправки -->
                 <div class="submit-section">
                     <button type="submit" class="btn-primary">
-                        <i class="fas fa-building"></i>
+                        <i class="fas fa-building" aria-hidden="true"></i>
                         Зарегистрировать компанию
                     </button>
                     
                     <div class="auth-links">
-                        <p>Уже есть аккаунт? <a href="employer-login.html" style="color: #667eea;">Войдите здесь</a></p>
+                        <p>
+                            Уже есть аккаунт? 
+                            <a href="employer-login.html" class="link">Войдите здесь</a>
+                        </p>
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <script src="js/employer-auth.js"></script>
 </body>

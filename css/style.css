@@ -120,6 +120,223 @@ main {
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
+/* Main Container */
+.main-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Filters Sidebar */
+.filters-sidebar {
+    width: 300px;
+    flex-shrink: 0;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.filters-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.btn-clear-filters {
+    background: none;
+    border: none;
+    color: #667eea;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.btn-clear-filters:hover {
+    color: #5a6fd8;
+}
+
+/* Filter Groups */
+.filter-group {
+    margin-bottom: 25px;
+}
+
+.filter-group h4 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Custom Checkboxes */
+.filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+    transition: color 0.3s ease;
+    position: relative;
+    padding-left: 30px;
+}
+
+.filter-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #f0f2f5;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: 2px solid #ddd;
+}
+
+.filter-checkbox:hover .checkmark {
+    border-color: #667eea;
+}
+
+.filter-checkbox input:checked ~ .checkmark {
+    background-color: #667eea;
+    border-color: #667eea;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.filter-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Salary Range */
+.salary-range {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.range-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.range-inputs input {
+    width: 80px;
+    padding: 8px 10px;
+    border: 2px solid #f0f2f5;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.range-inputs input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.range-inputs span {
+    color: #666;
+    font-weight: 600;
+}
+
+.btn-apply-salary {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-apply-salary:hover {
+    background: #5a6fd8;
+    transform: translateY(-1px);
+}
+
+/* Content Area */
+.content-area {
+    flex: 1;
+    min-width: 0; /* Для правильного отображения flex */
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .main-container {
+        flex-direction: column;
+    }
+    
+    .filters-sidebar {
+        width: 100%;
+        position: static;
+        margin-bottom: 20px;
+    }
+    
+    .filters-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        gap: 20px;
+    }
+    
+    .filters-sidebar {
+        padding: 15px;
+    }
+    
+    .range-inputs {
+        flex-wrap: wrap;
+    }
+    
+    .range-inputs input {
+        width: 100px;
+    }
+}
+
 /* Content Grid */
 .content-grid {
     display: grid;

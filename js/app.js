@@ -9,8 +9,9 @@ class NextStepApp {
   init() {
     this.renderContent();
     this.setupEventListeners();
+    this.setupFilters();
   }
-  
+
   setupEventListeners() {
     // Обработчики вкладок
     document.querySelectorAll(".tab").forEach((tab) => {
@@ -28,66 +29,66 @@ class NextStepApp {
     }
 
     // Кнопки в хедере
-    const resumeBtn = document.querySelector('.btn-resume');
-    const loginBtn = document.querySelector('.btn-login');
-    const employerLink = document.getElementById('employerLink');
-    
+    const resumeBtn = document.querySelector(".btn-resume");
+    const loginBtn = document.querySelector(".btn-login");
+    const employerLink = document.getElementById("employerLink");
+
     if (resumeBtn) {
-        resumeBtn.addEventListener('click', () => {
-             if (window.userAuth && window.userAuth.currentUser) {
-                // Пользователь авторизован - создаем резюме
-                // Просто выполняем действие без alert
-                console.log('Создание резюме для авторизованного пользователя');
-                // Здесь будет функционал создания резюме
-            } else {
-                // Пользователь не авторизован - открываем модальное окно
-                if (window.userAuth) {
-                    window.userAuth.showAuthModal();
-                }
-            }
-        });
+      resumeBtn.addEventListener("click", () => {
+        if (window.userAuth && window.userAuth.currentUser) {
+          // Пользователь авторизован - создаем резюме
+          // Просто выполняем действие без alert
+          console.log("Создание резюме для авторизованного пользователя");
+          // Здесь будет функционал создания резюме
+        } else {
+          // Пользователь не авторизован - открываем модальное окно
+          if (window.userAuth) {
+            window.userAuth.showAuthModal();
+          }
+        }
+      });
     }
-    
+
     if (loginBtn) {
-        loginBtn.addEventListener('click', () => {
-            if (window.userAuth) {
-                window.userAuth.showAuthModal();
-            }
-        });
+      loginBtn.addEventListener("click", () => {
+        if (window.userAuth) {
+          window.userAuth.showAuthModal();
+        }
+      });
     }
-    
+
     if (employerLink) {
-        employerLink.addEventListener('click', () => {
-            this.openEmployerPage();
-        });
+      employerLink.addEventListener("click", () => {
+        this.openEmployerPage();
+      });
     }
     // Кнопка "Создать резюме"
     if (resumeBtn) {
-        resumeBtn.addEventListener('click', () => {
-            if (window.userAuth && window.userAuth.currentUser) {
-                // Пользователь авторизован - создаем резюме
-                alert('Функция создания резюме будет доступна в ближайшее время!');
-            } else {
-                // Пользователь не авторизован - предлагаем войти
-                alert('Для создания резюме необходимо войти в систему');
-                if (window.userAuth) {
-                    window.userAuth.showAuthModal();
-                }
-            }
-        });
+      resumeBtn.addEventListener("click", () => {
+        if (window.userAuth && window.userAuth.currentUser) {
+          // Пользователь авторизован - создаем резюме
+          alert("Функция создания резюме будет доступна в ближайшее время!");
+        } else {
+          // Пользователь не авторизован - предлагаем войти
+          alert("Для создания резюме необходимо войти в систему");
+          if (window.userAuth) {
+            window.userAuth.showAuthModal();
+          }
+        }
+      });
     }
-    
   }
   openEmployerPage() {
     // Проверяем, есть ли уже зарегистрированный работодатель
-    const existingEmployer = localStorage.getItem('currentEmployer');
-    
+    const existingEmployer = localStorage.getItem("currentEmployer");
+
     if (existingEmployer) {
-        window.location.href = 'employer-dashboard.html';
+      window.location.href = "employer-dashboard.html";
     } else {
-        window.location.href = 'employer.html';
+      window.location.href = "employer.html";
     }
-}
+  }
+
   switchTab(tabName) {
     this.currentTab = tabName;
 
@@ -123,7 +124,108 @@ class NextStepApp {
         container.innerHTML = this.renderVacancies();
     }
   }
+  setupFilters() {
+    // Кнопка сброса фильтров
+    const clearFiltersBtn = document.getElementById("clearFilters");
+    if (clearFiltersBtn) {
+      clearFiltersBtn.addEventListener("click", () => {
+        this.clearAllFilters();
+      });
+    }
 
+    // Применение фильтра по зарплате
+    const applySalaryBtn = document.getElementById("applySalary");
+    if (applySalaryBtn) {
+      applySalaryBtn.addEventListener("click", () => {
+        this.applySalaryFilter();
+      });
+    }
+
+    // Обработчики для чекбоксов
+    document.querySelectorAll(".filter-checkbox input").forEach((checkbox) => {
+      checkbox.addEventListener("change", () => {
+        this.applyFilters();
+      });
+    });
+  }
+
+  clearAllFilters() {
+    // Сбрасываем все чекбоксы
+    document.querySelectorAll(".filter-checkbox input").forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+
+    // Сбрасываем поля зарплаты
+    document.getElementById("salaryMin").value = "";
+    document.getElementById("salaryMax").value = "";
+
+    // Сбрасываем фильтры
+    this.applyFilters();
+
+    // Показываем уведомление
+    this.showNotification("Все фильтры сброшены", "info");
+  }
+
+  applySalaryFilter() {
+    const minSalary = document.getElementById("salaryMin").value;
+    const maxSalary = document.getElementById("salaryMax").value;
+
+    // Базовая валидация
+    if (minSalary && maxSalary && parseInt(minSalary) > parseInt(maxSalary)) {
+      this.showNotification(
+        "Минимальная зарплата не может быть больше максимальной",
+        "error"
+      );
+      return;
+    }
+
+    this.applyFilters();
+    this.showNotification("Фильтр по зарплате применен", "success");
+  }
+
+  applyFilters() {
+    // Собираем текущие значения фильтров
+    const activeFilters = {
+      workType: this.getSelectedValues("workType"),
+      schedule: this.getSelectedValues("schedule"),
+      experience: this.getSelectedValues("experience"),
+      industry: this.getSelectedValues("industry"),
+      salaryMin: document.getElementById("salaryMin").value,
+      salaryMax: document.getElementById("salaryMax").value,
+    };
+
+    console.log("Active filters:", activeFilters);
+
+    // В реальном приложении здесь была бы фильтрация данных
+    // Сейчас просто показываем, что фильтры работают
+    if (
+      Object.keys(activeFilters).some(
+        (key) =>
+          (Array.isArray(activeFilters[key]) &&
+            activeFilters[key].length > 0) ||
+          (typeof activeFilters[key] === "string" && activeFilters[key])
+      )
+    ) {
+      this.showNotification("Фильтры применены", "success");
+    }
+  }
+
+  getSelectedValues(filterName) {
+    const checkboxes = document.querySelectorAll(
+      `input[name="${filterName}"]:checked`
+    );
+    return Array.from(checkboxes).map((cb) => cb.value);
+  }
+
+  showNotification(message, type = "info") {
+    // Используем ту же функцию уведомлений, что и в auth.js
+    if (window.userAuth && window.userAuth.showNotification) {
+      window.userAuth.showNotification(message, type);
+    } else {
+      // Простой fallback
+      console.log(`${type}: ${message}`);
+    }
+  }
   renderVacancies() {
     let html = '<div class="content-grid">';
 
@@ -325,7 +427,6 @@ class NextStepApp {
     // Пока просто перерисовываем контент
     this.renderContent();
   }
-  
 }
 
 // Инициализация приложения после загрузки DOM
