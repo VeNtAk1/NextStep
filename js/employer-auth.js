@@ -61,7 +61,7 @@ class EmployerAuth {
             return;
         }
         
-        // Сохраняем в localStorage (в реальном приложении - отправка на сервер)
+        // Сохраняем в sessionStorage (данные удаляются при закрытии вкладки)
         const employerData = {
             ...formData,
             id: this.generateId(),
@@ -72,8 +72,8 @@ class EmployerAuth {
         delete employerData.password;
         delete employerData.confirmPassword;
         
-        localStorage.setItem('currentEmployer', JSON.stringify(employerData));
-        localStorage.setItem('employerVacancies', JSON.stringify([]));
+        sessionStorage.setItem('currentEmployer', JSON.stringify(employerData));
+        sessionStorage.setItem('employerVacancies', JSON.stringify([]));
         
         alert('Компания успешно зарегистрирована!');
         window.location.href = 'employer-dashboard.html';
@@ -84,8 +84,8 @@ class EmployerAuth {
         const password = document.getElementById('loginPassword').value;
         
         // В реальном приложении здесь был бы запрос к серверу
-        // Для демо просто проверяем, что пользователь есть в localStorage
-        const existingEmployer = localStorage.getItem('currentEmployer');
+        // Для демо просто проверяем, что пользователь есть в sessionStorage
+        const existingEmployer = sessionStorage.getItem('currentEmployer');
         
         if (existingEmployer) {
             const employer = JSON.parse(existingEmployer);
@@ -103,7 +103,7 @@ class EmployerAuth {
     }
     
     checkAuthState() {
-        const employer = localStorage.getItem('currentEmployer');
+        const employer = sessionStorage.getItem('currentEmployer');
         
         if (employer) {
             this.currentEmployer = JSON.parse(employer);

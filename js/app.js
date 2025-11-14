@@ -83,9 +83,9 @@ class NextStepApp {
     const existingEmployer = localStorage.getItem('currentEmployer');
     
     if (existingEmployer) {
-        window.open('employer-dashboard.html', '_blank');
+        window.location.href = 'employer-dashboard.html';
     } else {
-        window.open('employer.html', '_blank');
+        window.location.href = 'employer.html';
     }
 }
   switchTab(tabName) {
