@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextStep - Создание резюме</title>
+    <meta name="description" content="Создайте профессиональное резюме на NextStep для привлечения работодателей">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/resume.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-compass" aria-hidden="true"></i>
+            NextStep
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                На главную
+            </a>
+        </div>
+        
+        <div class="header-buttons">
+            <span class="user-greeting" id="userGreeting"></span>
+        </div>
+    </header>
+
+    <main class="resume-container">
+        <header class="resume-header">
+            <h1 id="pageTitle">Создание резюме</h1>
+            <p id="pageDescription">Заполните информацию о себе для привлечения работодателей</p>
+        </header>
+
+        <section class="form-card" aria-labelledby="resume-form-title">
+            <h2 id="resume-form-title" class="visually-hidden">Форма создания резюме</h2>
+            
+            <form id="resumeForm" novalidate>
+                <!-- Основная информация -->
+                <fieldset class="form-section">
+                    <span>Основная информация</span>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName" class="required">Имя</label>
+                            <input type="text" id="firstName" required aria-required="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName" class="required">Фамилия</label>
+                            <input type="text" id="lastName" required aria-required="true">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="position" class="required">Желаемая должность</label>
+                        <input type="text" id="position" required aria-required="true">
+                    </div>
+                </fieldset>
+
+                <!-- Контакты -->
+                <fieldset class="form-section">
+                    <legend>Контактная информация</legend>
+                    
+                    <div class="form-group">
+                        <label for="email" class="required">Email</label>
+                        <input type="email" id="email" required aria-required="true">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="required">Телефон</label>
+                        <input type="tel" id="phone" required aria-required="true">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="city">Город</label>
+                        <input type="text" id="city" placeholder="Москва">
+                    </div>
+                </fieldset>
+
+                <!-- Навыки -->
+                <fieldset class="form-section">
+                    <legend>Профессиональные навыки</legend>
+                    
+                    <div class="form-group">
+                        <label for="skills">Ключевые навыки</label>
+                        <textarea id="skills" rows="4" placeholder="JavaScript, React, HTML5, CSS3, Git..."></textarea>
+                    </div>
+                </fieldset>
+
+                <!-- Опыт работы -->
+                <fieldset class="form-section">
+                    <legend>Опыт работы</legend>
+                    
+                    <div class="form-group">
+                        <label for="lastJob">Последнее место работы</label>
+                        <input type="text" id="lastJob" placeholder="Название компании">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jobTitle">Должность</label>
+                        <input type="text" id="jobTitle" placeholder="Frontend разработчик">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="workPeriod">Период работы</label>
+                        <input type="text" id="workPeriod" placeholder="2020 - 2023">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">Обязанности и достижения</label>
+                        <textarea id="experience" rows="4" placeholder="Опишите ваши обязанности и достижения..."></textarea>
+                    </div>
+                </fieldset>
+
+                <!-- Образование -->
+                <fieldset class="form-section">
+                    <legend>Образование</legend>
+                    
+                    <div class="form-group">
+                        <label for="education">Учебное заведение</label>
+                        <input type="text" id="education" placeholder="Название ВУЗа">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="specialty">Специальность</label>
+                        <input type="text" id="specialty" placeholder="Факультет и специальность">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="graduationYear">Год окончания</label>
+                        <input type="text" id="graduationYear" placeholder="2020">
+                    </div>
+                </fieldset>
+
+                <!-- Дополнительная информация -->
+                <fieldset class="form-section">
+                    <legend>Дополнительная информация</legend>
+                    
+                    <div class="form-group">
+                        <label for="about">О себе</label>
+                        <textarea id="about" rows="4" placeholder="Расскажите о ваших профессиональных целях..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="languages">Языки</label>
+                        <input type="text" id="languages" placeholder="Русский (родной), Английский (B2)">
+                    </div>
+                </fieldset>
+
+                <!-- Кнопка отправки -->
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" id="submitBtn">
+                        <i class="fas fa-file-alt" aria-hidden="true"></i>
+                        <span id="submitButtonText">Создать резюме</span>
+                    </button>
+                    
+                    <button type="button" class="btn-secondary" id="cancelBtn">
+                        Отмена
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script src="js/resume-create.js"></script>
+</body>
+</html>
