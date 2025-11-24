@@ -59,10 +59,24 @@ class NextStepApp {
         }
     }
 
-    openEmployerPage() {
-        const existingEmployer = sessionStorage.getItem('currentEmployer');
-        window.location.href = existingEmployer ? 'employer-dashboard.html' : 'employer.html';
-    }
+   openEmployerPage() {
+    if (window.userAuth?.currentUser) {
+        // Пользователь авторизован - проверяем есть ли компания
+        const userCompany = window.userAuth.getUserCompany();
+        if (userCompany) {
+            window.location.href = 'employer-dashboard.html';
+        } else {
+            window.location.href = 'employer-register.html';
+        }
+    } else {
+        // Пользователь не авторизован - показываем модальное окно
+        if (window.userAuth) {
+            window.userAuth.showAuthModal();
+            // Сохраняем информацию о том, что после авторизации нужно перейти в раздел работодателей
+            window.userAuth.afterLoginAction = 'employer';
+        }
+        }
+    }      
 
     switchTab(tabName) {
         this.currentTab = tabName;

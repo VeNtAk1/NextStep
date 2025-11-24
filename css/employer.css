@@ -11,13 +11,13 @@
 }
 
 .employer-header h1 {
-    color: #667eea;
+    color: #ffffff;
     margin-bottom: 10px;
     font-size: 2.5rem;
 }
 
 .employer-header p {
-    color: #666;
+    color: #ffffff;
     font-size: 1.1rem;
 }
 
@@ -28,16 +28,13 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
 }
 
-.form-group {
-    margin-bottom: 25px;
-}
-
 .form-group label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
     color: #333;
     font-size: 1rem;
+    padding-top: 10px;
 }
 
 .form-group input,

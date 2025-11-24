@@ -3,7 +3,7 @@ const vacanciesData = [
     {
         id: 1,
         title: "Строитель",
-        salary: "70 000 - 90 000 руб.",
+        salary: "150 000 - 200 000 руб.",
         company: "СтройГарант",
         companyId: 1,
         experience: "1-3 года",

@@ -119,8 +119,37 @@ class UserAuth {
         } else {
             this.showNotification('Неверный email или пароль', 'error');
         }
+
+        if (this.afterLoginAction === 'employer') {
+        this.afterLoginAction = null;
+        window.nextStepApp.openEmployerPage();
+        }
     }
-    
+    getUserCompanies() {
+    if (!this.currentUser) return [];
+        return JSON.parse(localStorage.getItem(`userCompanies_${this.currentUser.id}`) || '[]');
+    }
+
+    saveUserCompany(companyData) {
+        if (!this.currentUser) return false;
+        
+        const companies = this.getUserCompanies();
+        companyData.id = this.generateId();
+        companyData.userId = this.currentUser.id;
+        companyData.createdAt = new Date().toISOString();
+        
+        companies.push(companyData);
+        localStorage.setItem(`userCompanies_${this.currentUser.id}`, JSON.stringify(companies));
+        
+        return companyData;
+    }
+
+    getUserCompany() {
+        const companies = this.getUserCompanies();
+        return companies.length > 0 ? companies[0] : null; // Одна компания на пользователя
+    }
+
+
     handleRegistration() {
         const formData = {
             name: document.getElementById('registerName').value,
@@ -128,6 +157,11 @@ class UserAuth {
             password: document.getElementById('registerPassword').value,
             confirmPassword: document.getElementById('registerConfirmPassword').value
         };
+
+        if (this.afterLoginAction === 'employer') {
+        this.afterLoginAction = null;
+        window.nextStepApp.openEmployerPage();
+        }
         
         // Валидация
         if (formData.password !== formData.confirmPassword) {
@@ -184,38 +218,40 @@ class UserAuth {
     }
     
     updateUI() {
-        const loginBtn = document.getElementById('userLoginBtn');
-        const headerButtons = document.querySelector('.header-buttons');
+    const loginBtn = document.getElementById('userLoginBtn');
+    const headerButtons = document.querySelector('.header-buttons');
+    
+    if (this.currentUser) {
+        document.body.classList.add('user-authenticated');
         
-        if (this.currentUser) {
-            // Пользователь авторизован
-            document.body.classList.add('user-authenticated');
+        if (!document.querySelector('.user-menu')) {
+            const userMenu = document.createElement('div');
+            userMenu.className = 'user-menu';
             
-            // Создаем меню пользователя, если его еще нет
-            if (!document.querySelector('.user-menu')) {
-                const userMenu = document.createElement('div');
-                userMenu.className = 'user-menu';
-                userMenu.innerHTML = `
-                    <div class="user-avatar" id="userAvatar">
-                        ${this.getUserInitials()}
-                    </div>
-                    <span class="user-name">${this.currentUser.name}</span>
-                    <button class="btn btn-logout" id="userLogoutBtn">Выйти</button>
-                `;
-                headerButtons.appendChild(userMenu);
-                
-                // Обработчик выхода
-                document.getElementById('userLogoutBtn').addEventListener('click', () => {
-                    this.handleLogout();
-                });
-            }
-        } else {
-            // Пользователь не авторизован
-            document.body.classList.remove('user-authenticated');
-            const userMenu = document.querySelector('.user-menu');
-            if (userMenu) {
-                userMenu.remove();
-            }
+            const userCompany = this.getUserCompany();
+            const companyBadge = userCompany ? 
+                `<span class="company-badge" style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px;">Работодатель</span>` : 
+                '';
+            
+            userMenu.innerHTML = `
+                <div class="user-avatar" id="userAvatar">
+                    ${this.getUserInitials()}
+                </div>
+                <span class="user-name">${this.currentUser.name}</span>
+                ${companyBadge}
+                <button class="btn btn-logout" id="userLogoutBtn">Выйти</button>
+            `;
+            headerButtons.appendChild(userMenu);
+            
+            document.getElementById('userLogoutBtn').addEventListener('click', () => {
+                this.handleLogout();
+            });
+        }
+    } else {
+        document.body.classList.remove('user-authenticated');
+        const userMenu = document.querySelector('.user-menu');
+        if (userMenu) {
+            userMenu.remove();}
         }
     }
     
